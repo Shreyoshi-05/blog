@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import React from 'react'
 import blog from '../models/Blog.js';
 import comment from '../models/commemt.js';
 
@@ -84,7 +83,7 @@ export const deleteCommentById =async(req,res) => {
 
     res.json({
       "message":"comment was deleted",
-      "success":false
+      "success":true
       
     })
   } catch (error) {
