@@ -4,9 +4,11 @@ import { FaCloudUploadAlt, FaInfoCircle } from "react-icons/fa";
 import { FaMagic } from "react-icons/fa";
 import { UseAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import { GoogleGenAI } from "@google/genai";
 
 const AddBlog = () => {
   const [isAdding, setIsAdding] = useState(false);
+  const [isLoding, setIsLoding] = useState(false);
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -68,8 +70,25 @@ const AddBlog = () => {
     }
   }
 
-  console.log(token)
+  async function handelGenerate() {
+    if(!title) return toast.error("please enter title");
 
+    try {
+      setIsLoding(true);
+      const {data} = await axios.post(`api/blog/create`,{prompt:title})
+      if(data.success){
+        quillRef.current.root.innerHTML = data.content
+      }else{
+        toast.error(data.message)
+      }
+      console.log(data);
+    } catch (error) {
+      toast.error(error.message)
+    }finally{
+      setIsLoding(false);
+    }
+  }
+  console.log(title)
 
   return (
     <div
@@ -145,8 +164,10 @@ const AddBlog = () => {
             style={{ padding: "0.4rem 1rem" }}
             type="button"
             className="btn btn-neutral absolute bottom-2 right-2 "
+            onClick={handelGenerate}
           >
-            Generate with Ai <FaMagic />
+           {isLoding?<span className="loading loading-dots loading-xl"></span>:"Generate with Ai"}
+           <FaMagic />
           </button>
         </div>
 

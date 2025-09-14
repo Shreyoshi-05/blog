@@ -14,134 +14,12 @@ const Home = () => {
     "finance",
   ];
   const [state, setState] = useState("All");
-  // const blogs = [
-  //   {
-  //     id: 1,
-  //     title: "The Future of AI in Everyday Life",
-  //     description:
-  //       "Exploring how artificial intelligence is reshaping daily activities from smart homes to healthcare.",
-  //     category: "technology",
-  //     image: "https://source.unsplash.com/600x400/?artificial-intelligence",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "5 Startup Mistakes to Avoid",
-  //     description:
-  //       "Common pitfalls that new entrepreneurs face and how to overcome them.",
-  //     category: "startup",
-  //     image: "https://source.unsplash.com/600x400/?startup",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Morning Routines of Successful People",
-  //     description:
-  //       "Discover daily habits and routines that fuel productivity and creativity.",
-  //     category: "lifestyle",
-  //     image: "https://source.unsplash.com/600x400/?morning",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Investing in the Stock Market 101",
-  //     description:
-  //       "A beginner-friendly guide to understanding and investing in stocks.",
-  //     category: "finance",
-  //     image: "https://source.unsplash.com/600x400/?finance",
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Blockchain Beyond Cryptocurrency",
-  //     description:
-  //       "The real-world applications of blockchain technology across industries.",
-  //     category: "technology",
-  //     image: "https://source.unsplash.com/600x400/?blockchain",
-  //   },
-  //   {
-  //     id: 6,
-  //     title: "How to Pitch to Investors",
-  //     description:
-  //       "Tips and strategies for creating a winning pitch deck for your startup.",
-  //     category: "startup",
-  //     image: "https://source.unsplash.com/600x400/?pitch",
-  //   },
-  //   {
-  //     id: 7,
-  //     title: "Minimalist Lifestyle Hacks",
-  //     description:
-  //       "Practical steps to simplify your life and focus on what truly matters.",
-  //     category: "lifestyle",
-  //     image: "https://source.unsplash.com/600x400/?minimalism",
-  //   },
-  //   {
-  //     id: 8,
-  //     title: "Personal Finance for Millennials",
-  //     description:
-  //       "Budgeting, saving, and investing tips for the modern generation.",
-  //     category: "finance",
-  //     image: "https://source.unsplash.com/600x400/?money",
-  //   },
-  //   {
-  //     id: 9,
-  //     title: "The Rise of Quantum Computing",
-  //     description:
-  //       "How quantum technology will change the future of computing and problem solving.",
-  //     category: "technology",
-  //     image: "https://source.unsplash.com/600x400/?quantum",
-  //   },
-  //   {
-  //     id: 10,
-  //     title: "Bootstrapping vs. VC Funding",
-  //     description:
-  //       "Which path is right for your startup: self-funding or venture capital?",
-  //     category: "startup",
-  //     image: "https://source.unsplash.com/600x400/?venture-capital",
-  //   },
-  //   {
-  //     id: 11,
-  //     title: "Travel on a Budget",
-  //     description: "Tips for exploring the world without breaking the bank.",
-  //     category: "lifestyle",
-  //     image: "https://source.unsplash.com/600x400/?travel",
-  //   },
-  //   {
-  //     id: 12,
-  //     title: "Understanding Cryptocurrency",
-  //     description:
-  //       "Beginner’s guide to Bitcoin, Ethereum, and the world of crypto assets.",
-  //     category: "finance",
-  //     image: "https://source.unsplash.com/600x400/?cryptocurrency",
-  //   },
-  //   {
-  //     id: 13,
-  //     title: "Cybersecurity in 2025",
-  //     description:
-  //       "Trends and challenges in keeping your data and devices safe.",
-  //     category: "technology",
-  //     image: "https://source.unsplash.com/600x400/?cybersecurity",
-  //   },
-  //   {
-  //     id: 14,
-  //     title: "Scaling Your Startup",
-  //     description:
-  //       "Strategies to grow your business sustainably while avoiding burnout.",
-  //     category: "startup",
-  //     image: "https://source.unsplash.com/600x400/?scaling",
-  //   },
-  //   {
-  //     id: 15,
-  //     title: "Work-Life Balance in the Digital Age",
-  //     description: "How to maintain healthy boundaries while working remotely.",
-  //     category: "lifestyle",
-  //     image: "https://source.unsplash.com/600x400/?work-life",
-  //   },
-  // ];
-
   const [menu, setMenu] = useState("All");
-  const [serch, setSerch] = useState("")
+  const [search, setSerch] = useState("");
   const inputRef = useRef();
+  const [serchedblog, setSerchedBlog] = useState([]);
 
-  const { blogs, input, setInput } = UseAppContext();
-  // console.log(input);
-  // console.log(blogs);
+  const { blogs, input, setInput, category, setBlogs } = UseAppContext();
 
   const filterBlogData = () => {
     if (blogs) {
@@ -157,15 +35,22 @@ const Home = () => {
     }
   };
 
-  function handelSearch(){
-    setInput(serch)
+  function handelSearch() {
+    setInput(search);
+    let copy = [...blogs];
+    copy = copy.filter((blog) =>
+      blog.title.toLowerCase().includes(search.toLowerCase())
+    );
+    setSerchedBlog(copy);
   }
+  // console.log(blogs);
+  console.log(serchedblog);
 
-  function clearserch(){
+  function clearserch() {
     setInput("");
     setSerch("");
   }
-  
+
   return (
     <div className="w-[100%]">
       {/* <Nav /> */}
@@ -203,11 +88,11 @@ const Home = () => {
                 class="flex-1 outline-none"
                 style={{ padding: "0.8rem 2rem" }}
                 ref={inputRef}
-                value={serch}
-                onChange={(e)=>setSerch(e.target.value)}
+                value={search}
+                onChange={(e) => setSerch(e.target.value)}
               />
               <button
-              onClick={handelSearch}
+                onClick={handelSearch}
                 style={{ padding: "0.8rem 2rem" }}
                 class="bg-[#7b2cbf] h-full text-white hover:bg-[#c573ff] transition"
               >
@@ -217,41 +102,44 @@ const Home = () => {
           </div>
 
           <div className="flex gap-3">
-            {input ?
-            <div className="flex flex-row">
-                  <button
-                    onClick={clearserch}
-                    style={{ padding: "0.4rem 1rem" }}
-                    className="bg-[#7b2cbf] rounded-2xl text-white cursor-pointer"
-                  >
-                    clear search
-                  </button>
-                </div>
-                :
-             blockCategory.map((item) => {
-              return (
-                <div className="flex flex-row" key={item}>
-                  <button
-                    onClick={() => setState(item)}
-                    style={{ padding: "0.2rem 1rem" }}
-                    className={
-                      item == state
-                        ? "bg-[#7b2cbf] rounded-2xl text-white "
-                        : "cursor-pointer"
-                    }
-                  >
-                    {item}
-                  </button>
-                </div>
-              );
-            })}
+            {input ? (
+              <div className="flex flex-row">
+                <button
+                  onClick={clearserch}
+                  style={{ padding: "0.4rem 1rem" }}
+                  className="bg-[#7b2cbf] rounded-2xl text-white cursor-pointer"
+                >
+                  clear search
+                </button>
+              </div>
+            ) : (
+              category.map((item) => {
+                return (
+                  <div className="flex flex-row" key={item}>
+                    <button
+                      onClick={() => setState(item)}
+                      style={{ padding: "0.2rem 1rem" }}
+                      className={
+                        item == state
+                          ? "bg-[#7b2cbf] rounded-2xl text-white "
+                          : "cursor-pointer"
+                      }
+                    >
+                      {item}
+                    </button>
+                  </div>
+                );
+              })
+            )}
           </div>
 
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {state == "All"
+            {state == "All" && search == ""
               ? filterBlogData().map((blog) => (
                   <Cards key={blog.id} blog={blog} />
                 ))
+              : search
+              ? serchedblog.map((blog) => <Cards key={blog.id} blog={blog} />)
               : filterBlogData()
                   .filter((blog) => blog.category == state)
                   .map((item) => <Cards key={item.id} blog={item} />)}

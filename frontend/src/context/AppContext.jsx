@@ -13,10 +13,9 @@ export const AppContextProvider = ({children}) =>{
   const[blogs,setBlogs] = useState([]);
   const[input,setInput] = useState("");
   const[category,setCategory] = useState([
+    "All",
   "Technology",
   "Lifestyle",
-  "Health",
-  "Education",
   "Travel",
   "Food"
 ])
