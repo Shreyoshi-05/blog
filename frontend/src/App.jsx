@@ -12,25 +12,29 @@ import Comments from "./components/admin/Comments";
 import Login from "./components/Login";
 import { Toaster } from "react-hot-toast";
 import { UseAppContext } from "./context/AppContext";
-import "quill/dist/quill.snow.css"
+import "quill/dist/quill.snow.css";
 
 const App = () => {
-   const{token} = UseAppContext();
-
+  const { token } = UseAppContext();
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
   const hideNav = isAdminRoute && !token;
   const hideFooter = isAdminRoute;
- 
+
   return (
-    <div>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "radial-gradient(circle at center 30%, #FFE1FF 0%, #ffffff 40%, #ffffff 80%, #FFB8E0 100%)",
+      }}
+    >
       <Toaster />
       {!hideNav && <Nav />}
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/:id" element={<Blog />}></Route>
         <Route path="/login" element={<Login />}></Route>
-        <Route path="/admin" element={token?<Admin />:<Login />}>
+        <Route path="/admin" element={token ? <Admin /> : <Login />}>
           <Route index element={<DashBord />}></Route>
           <Route path="addBlog" element={<AddBlog />}></Route>
           <Route path="listBlog" element={<BlogList />}></Route>

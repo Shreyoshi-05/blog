@@ -6,6 +6,7 @@ import { UseAppContext } from "../../context/AppContext";
 import Comment from "./Comment";
 import { months } from "./month";
 import Loding from "../Loding";
+import { motion } from "framer-motion";
 
 const Blog = () => {
   const [singleBlog, setSingleBlog] = useState(null);
@@ -39,12 +40,16 @@ const Blog = () => {
     e.preventDefault();
 
     try {
-      const {data} = await axios.post(`api/blog/add-comment`,{blog:id,name,content})
-      if(data.success){
+      const { data } = await axios.post(`api/blog/add-comment`, {
+        blog: id,
+        name,
+        content,
+      });
+      if (data.success) {
         toast.success(data.message);
         setContent("");
-        setName("")
-      }else{
+        setName("");
+      } else {
         toast.error(data.message);
       }
     } catch (error) {
@@ -81,11 +86,14 @@ const Blog = () => {
             New: AI feature integrated ✨
           </span>
         </div>
-        <img
+        <motion.img
           style={{ margin: "3rem 0" }}
           className="w-full max-h-[25rem] object-cover rounded-2xl shadow-lg my-12"
           src={singleBlog.image}
           alt="pic"
+          initial={{ y: 50, opacity: 0 }} // start slightly lower and invisible
+          animate={{ y: 0, opacity: 1 }} // move up into place and fade in
+          transition={{ duration: 1, ease: "easeOut" }} // smooth effect
         />
         <p className="text-center text-gray-500">{singleBlog.description}</p>
 
@@ -93,7 +101,10 @@ const Blog = () => {
 
         <div className="w-[100%]">
           <h2 class="text-2xl font-bold mb-4">Leave a Comment</h2>
-          <form onSubmit={hendelAdd} class="flex flex-col w-full gap-4 p-5 rounded-lg ">
+          <form
+            onSubmit={hendelAdd}
+            class="flex flex-col w-full gap-4 p-5 rounded-lg "
+          >
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -116,7 +127,6 @@ const Blog = () => {
               style={{ padding: "1rem" }}
               type="submit"
               class="bg-purple-700 font-bold text-white py-2 rounded hover:bg-purple-800 transition"
-              
             >
               Post Comment
             </button>

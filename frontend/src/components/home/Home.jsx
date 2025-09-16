@@ -85,7 +85,7 @@ const Home = () => {
               <input
                 type="text"
                 placeholder="Search for blogs.."
-                class="flex-1 outline-none"
+                class="flex-1 outline-none bg-white"
                 style={{ padding: "0.8rem 2rem" }}
                 ref={inputRef}
                 value={search}
